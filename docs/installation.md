@@ -11,7 +11,7 @@ Ce guide part de zéro et suppose des bases en auto-hébergement (Docker, n8n).
 ## 2. Configuration
 
 ```bash
-git clone https://github.com/<votre-pseudo>/auto-veille-n8n-ia-local.git
+git clone https://github.com/ChrisAutodidacte/auto-veille-n8n-ia-local.git
 cd auto-veille-n8n-ia-local
 cp .env.example .env
 ```

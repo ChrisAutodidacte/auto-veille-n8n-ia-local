@@ -82,7 +82,7 @@ Schéma détaillé et flux de données dans **[docs/architecture.md](docs/archit
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/<votre-pseudo>/auto-veille-n8n-ia-local.git
+git clone https://github.com/ChrisAutodidacte/auto-veille-n8n-ia-local.git
 cd auto-veille-n8n-ia-local
 
 # 2. Configurer l'environnement
