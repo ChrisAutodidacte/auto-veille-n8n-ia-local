@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard — Veille Admin{% endblock %}
+
+{% block content %}
+<h4 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard</h4>
+
+<!-- Stats articles -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card p-3 text-center">
+      <div class="fs-1 fw-bold text-warning">{{ stats_articles.get('a_analyser', 0) }}</div>
+      <div class="text-muted">En attente d'analyse</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card p-3 text-center">
+      <div class="fs-1 fw-bold text-success">{{ stats_articles.get('analyse', 0) }}</div>
+      <div class="text-muted">Analysés</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card p-3 text-center">
+      <div class="fs-1 fw-bold text-danger">{{ stats_articles.get('erreur', 0) }}</div>
+      <div class="text-muted">En erreur</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats sources -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card p-3 text-center">
+      <div class="fs-2 fw-bold text-primary">{{ stats_sources.get('email', 0) }}</div>
+      <div class="text-muted"><i class="bi bi-envelope"></i> Sources email</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card p-3 text-center">
+      <div class="fs-2 fw-bold" style="color:#6f42c1">{{ stats_sources.get('search', 0) }}</div>
+      <div class="text-muted"><i class="bi bi-search"></i> Sources search</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card p-3 text-center">
+      <div class="fs-2 fw-bold text-info">{{ stats_sources.get('web_scraping', 0) }}</div>
+      <div class="text-muted"><i class="bi bi-globe"></i> Sources web scraping</div>
+    </div>
+  </div>
+</div>
+
+<!-- Derniers articles -->
+<div class="card">
+  <div class="card-header bg-white fw-semibold">
+    <i class="bi bi-clock-history"></i> Derniers articles collectés
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Titre</th>
+          <th>Source</th>
+          <th>Type</th>
+          <th>Statut</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in derniers %}
+        <tr onclick="location.href='/articles/{{ a.id }}'" style="cursor:pointer">
+          <td>{{ (a.titre_article or a.titre_brut or '—')[:70] }}</td>
+          <td>{{ a.source_nom or '—' }}</td>
+          <td><small class="text-muted">{{ a.origine_texte or '' }}</small></td>
+          <td>
+            <span class="badge badge-{{ a.statut }}">{{ a.statut }}</span>
+          </td>
+          <td><small>{{ a.date_collecte.strftime('%d/%m %H:%M') if a.date_collecte else '—' }}</small></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted py-3">Aucun article</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

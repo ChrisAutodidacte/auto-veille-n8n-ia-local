@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Modifier' if source else 'Nouvelle' }} source — Veille Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4 gap-3">
+  <a href="/sources" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i></a>
+  <h4 class="mb-0">{{ 'Modifier' if source else 'Nouvelle' }} source</h4>
+</div>
+
+<div class="card p-4" style="max-width:720px">
+  <form method="post">
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Nom</label>
+      <input type="text" name="nom" class="form-control"
+             value="{{ source.nom if source else '' }}" required>
+    </div>
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Type de source</label>
+        <select name="type_source" id="type_source" class="form-select" required>
+          {% for t in types %}
+          <option value="{{ t }}" {{ 'selected' if source and source.type_source == t }}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Profil d'analyse</label>
+        <select name="profil_analyse" class="form-select" required>
+          {% for p in profils %}
+          <option value="{{ p }}" {{ 'selected' if source and source.profil_analyse == p }}>{{ p }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="actif" id="actif"
+               {{ 'checked' if not source or source.actif }}>
+        <label class="form-check-label" for="actif">Source active</label>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Champs search -->
+    <div id="fields-search">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Requête de recherche</label>
+        <input type="text" name="search_query" class="form-control"
+               value="{{ source.config.get('search_query','') if source else '' }}"
+               placeholder="ex: IA pour petites entreprises France">
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Nombre max de résultats</label>
+        <input type="number" name="max_results" class="form-control" min="1" max="20"
+               value="{{ source.config.get('max_results', 5) if source else 5 }}">
+      </div>
+    </div>
+
+    <!-- Champs web_scraping -->
+    <div id="fields-web_scraping">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">URL de la page index</label>
+        <input type="url" name="url" class="form-control"
+               value="{{ source.config.get('url','') if source else '' }}"
+               placeholder="https://www.anthropic.com/news">
+      </div>
+      <div class="row g-3 mb-3">
+        <div class="col-md-8">
+          <label class="form-label fw-semibold">Motif URL des articles</label>
+          <input type="text" name="motif_url" class="form-control"
+                 value="{{ source.config.get('motif_url','') if source else '' }}"
+                 placeholder="ex: /news/">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-semibold">Max articles</label>
+          <input type="number" name="max" class="form-control" min="1" max="20"
+                 value="{{ source.config.get('max', 5) if source else 5 }}">
+        </div>
+      </div>
+    </div>
+
+    <!-- Champs email -->
+    <div id="fields-email">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Expéditeur (email)</label>
+        <input type="text" name="sender" class="form-control"
+               value="{{ source.config.get('sender','') if source else '' }}"
+               placeholder="newsletter@exemple.fr">
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Label Gmail</label>
+        <input type="text" name="gmail_label" class="form-control"
+               value="{{ source.config.get('gmail_label','') if source else '' }}"
+               placeholder="Newsletter">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Thème newsletter</label>
+      <select name="theme" class="form-select">
+        <option value="">-- Aucun (source non proposée aux abonnés) --</option>
+        {% for t in themes_newsletter %}
+        <option value="{{ t }}" {{ 'selected' if source and source.theme == t }}>{{ t }}</option>
+        {% endfor %}
+      </select>
+      <div class="form-text">
+        Thème affiché aux abonnés pour cette source.
+        <a href="/themes" target="_blank">Gérer les thèmes →</a>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Mots-clés prioritaires <small class="text-muted">(séparés par des virgules)</small></label>
+      <input type="text" name="priorites" class="form-control"
+             value="{{ source.config.get('priorites', [])|join(', ') if source else '' }}"
+             placeholder="IA, automatisation, réglementation">
+    </div>
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Mots-clés à ignorer <small class="text-muted">(séparés par des virgules)</small></label>
+      <input type="text" name="ignore" class="form-control"
+             value="{{ source.config.get('ignore', [])|join(', ') if source else '' }}"
+             placeholder="formation payante, publicité">
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-lg"></i> {{ 'Enregistrer' if source else 'Créer' }}
+      </button>
+      <a href="/sources" class="btn btn-outline-secondary">Annuler</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const typeSource = document.getElementById('type_source');
+const allFields = { search: 'fields-search', web_scraping: 'fields-web_scraping', email: 'fields-email' };
+
+function showFields() {
+  Object.values(allFields).forEach(id => document.getElementById(id).style.display = 'none');
+  const active = allFields[typeSource.value];
+  if (active) document.getElementById(active).style.display = 'block';
+}
+
+typeSource.addEventListener('change', showFields);
+showFields();
+
+fetch('/api/themes')
+  .then(r => r.json())
+  .then(data => {
+    const el = document.getElementById('themes-existants');
+    el.textContent = data.length ? data.join(' · ') : 'aucun pour l\'instant';
+  });
+</script>
+{% endblock %}

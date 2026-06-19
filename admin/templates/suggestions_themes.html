@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Suggestions de thèmes — Veille Admin{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+  <h4 class="mb-0">Suggestions de thèmes des abonnés</h4>
+</div>
+
+{% if not suggestions %}
+  <p class="text-muted">Aucune suggestion pour l'instant.</p>
+{% else %}
+<div class="card">
+  <table class="table table-hover mb-0">
+    <thead class="table-light">
+      <tr>
+        <th>Thème suggéré</th>
+        <th>Demandeur</th>
+        <th>Date</th>
+        <th>Statut</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for s in suggestions %}
+    <tr>
+      <td class="fw-semibold">{{ s.theme_suggere }}</td>
+      <td>{{ s.demandeur_email or '—' }}</td>
+      <td>{{ s.date_suggestion.strftime('%d/%m/%Y') if s.date_suggestion else '—' }}</td>
+      <td>
+        {% if s.statut == 'en_attente' %}
+          <span class="badge bg-warning text-dark">En attente</span>
+        {% elif s.statut == 'accepte' %}
+          <span class="badge bg-success">Accepté</span>
+        {% else %}
+          <span class="badge bg-secondary">Refusé</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if s.statut == 'en_attente' %}
+        <form method="post" action="/suggestions-themes/{{ s.id }}/statut" class="d-inline">
+          <input type="hidden" name="statut" value="accepte">
+          <button class="btn btn-sm btn-success">
+            <i class="bi bi-check-lg"></i> Accepter
+          </button>
+        </form>
+        <form method="post" action="/suggestions-themes/{{ s.id }}/statut" class="d-inline">
+          <input type="hidden" name="statut" value="refuse">
+          <button class="btn btn-sm btn-outline-danger">
+            <i class="bi bi-x-lg"></i> Refuser
+          </button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p class="text-muted small mt-3">
+  <i class="bi bi-info-circle"></i>
+  Pour accepter un thème : cliquer Accepter, puis aller dans <a href="/sources">Sources</a> et renseigner ce thème sur les sources concernées.
+</p>
+{% endif %}
+{% endblock %}

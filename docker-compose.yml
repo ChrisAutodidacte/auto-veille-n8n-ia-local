@@ -1,0 +1,129 @@
+# =============================================================================
+#  Auto Veille n8n IA Local — stack complète, 100 % auto-hébergée
+# =============================================================================
+#  Une seule commande pour tout lancer :
+#      docker compose up -d
+#
+#  Copiez d'abord .env.example en .env et renseignez vos valeurs.
+#  Détails dans README.md et docs/installation.md.
+# =============================================================================
+
+name: auto-veille-ia
+
+networks:
+  veille_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  n8n_data:
+  ollama_data:
+
+services:
+  # --- Base de données : PostgreSQL (partagée par n8n et la veille) -----------
+  postgres:
+    image: postgres:16-alpine
+    container_name: veille_postgres
+    restart: unless-stopped
+    networks: [veille_network]
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Le schéma de la veille est créé automatiquement au premier démarrage :
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- Orchestrateur de workflows : n8n ---------------------------------------
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: veille_n8n
+    restart: unless-stopped
+    networks: [veille_network]
+    ports:
+      - "5678:5678"
+    environment:
+      GENERIC_TIMEZONE: ${TZ}
+      TZ: ${TZ}
+      N8N_SECURE_COOKIE: "false"
+      NODE_FUNCTION_ALLOW_BUILTIN: "*"
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: ${DB_NAME}
+      DB_POSTGRESDB_USER: ${DB_USER}
+      DB_POSTGRESDB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - n8n_data:/home/node/.n8n
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # --- IA locale : Ollama (analyse / résumé des articles) ---------------------
+  ollama:
+    image: ollama/ollama:latest
+    container_name: veille_ollama
+    restart: unless-stopped
+    networks: [veille_network]
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # GPU NVIDIA : décommentez le bloc ci-dessous si vous avez nvidia-container-toolkit
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # --- Méta-moteur de recherche : SearXNG (collecte web sans clé d'API) -------
+  searxng:
+    image: searxng/searxng:latest
+    container_name: veille_searxng
+    restart: unless-stopped
+    networks: [veille_network]
+    ports:
+      - "8080:8080"
+    environment:
+      SEARXNG_BASE_URL: http://localhost:8080/
+      SEARXNG_SECRET: ${SEARXNG_SECRET}
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    depends_on:
+      - searxng-redis
+
+  searxng-redis:
+    image: redis:7-alpine
+    container_name: veille_searxng_redis
+    restart: unless-stopped
+    networks: [veille_network]
+    command: redis-server --save 30 1 --loglevel warning
+
+  # --- Interface d'administration : Flask -------------------------------------
+  veille_admin:
+    build: ./admin
+    container_name: veille_admin
+    restart: unless-stopped
+    networks: [veille_network]
+    ports:
+      - "8090:8090"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      FLASK_SECRET_KEY: ${FLASK_SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy

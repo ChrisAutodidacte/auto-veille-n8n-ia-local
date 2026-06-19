@@ -1,0 +1,25 @@
+# =============================================================================
+#  Configuration SearXNG — Auto Veille n8n IA Local
+# =============================================================================
+#  Le seul réglage indispensable pour ce projet : activer le format de sortie
+#  JSON, car les workflows n8n interrogent SearXNG via son API JSON
+#  (http://searxng:8080/search?format=json&q=...).
+#
+#  La clé secrète est injectée depuis la variable d'environnement SEARXNG_SECRET
+#  (voir docker-compose.yml et .env). Au premier lancement, SearXNG complète ce
+#  fichier avec ses valeurs par défaut pour tout ce qui n'est pas précisé ici.
+# =============================================================================
+
+use_default_settings: true
+
+server:
+  # Surchargée par SEARXNG_SECRET au runtime ; valeur de repli pour le repo.
+  secret_key: "change-me"
+  limiter: false
+  image_proxy: true
+
+search:
+  # Formats exposés par l'API. "json" est requis pour la collecte n8n.
+  formats:
+    - html
+    - json
