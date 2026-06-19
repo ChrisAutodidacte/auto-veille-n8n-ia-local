@@ -5,7 +5,10 @@
       "parameters": {},
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1,
-      "position": [48, 288],
+      "position": [
+        48,
+        288
+      ],
       "id": "a1b2c3d4-0001-0001-0001-000000000001",
       "name": "When called by another workflow"
     },
@@ -20,7 +23,10 @@
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
-      "position": [288, 288],
+      "position": [
+        288,
+        288
+      ],
       "id": "a1b2c3d4-0001-0001-0001-000000000002",
       "name": "Gmail Send",
       "credentials": {
@@ -34,11 +40,21 @@
   "pinData": {},
   "connections": {
     "When called by another workflow": {
-      "main": [[{"node": "Gmail Send", "type": "main", "index": 0}]]
+      "main": [
+        [
+          {
+            "node": "Gmail Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
-  "settings": {"executionOrder": "v1"},
+  "settings": {
+    "executionOrder": "v1"
+  },
   "versionId": "a1b2c3d4-0001-0001-0001-000000000010",
   "meta": {
     "instanceId": "30ec8b1eda8a151582e85784af303a4c29cf021152bd2d826e291f3489a5ea97"
