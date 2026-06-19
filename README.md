@@ -128,14 +128,50 @@ Guide d'installation complet, configuration des credentials Gmail et import des 
 
 ---
 
-## 🧠 Méthodologie : développement piloté, pas délégué
+## 🧠 Méthodologie : développement supervisé multi-modèles
 
-Ce projet a été conçu en **dirigeant l'IA**, pas en la laissant tout faire. La démarche d'ingénierie est documentée et versionnée dans [`docs/`](docs/) :
+Ce projet n'a pas été « généré par une IA » d'un bloc. Il a été développé selon un
+processus que je supervise, en faisant **collaborer deux IA aux rôles distincts** —
+une approche qui rapproche le développement assisté par IA d'un vrai travail d'équipe
+avec relecture par les pairs.
 
-- **Specs** (`docs/specs/`) — la conception réfléchie en amont de chaque niveau.
-- **Plans** (`docs/plans/`) — le découpage en étapes d'implémentation.
+**Le rôle « architecte » (modèle avancé, type Opus)**
+- Sert de base de réflexion sur les fonctionnalités à mettre en place.
+- Produit un **fichier de spécification** pensé pour être exécuté par un modèle plus
+  léger : cadré, guidé, découpé en étapes claires.
+- Maintient un **fichier de progression** mis à jour au fil de l'avancement.
 
-C'est un parti pris assumé : **spécifier → planifier → implémenter**, en gardant la main sur l'architecture et les décisions techniques.
+**Le rôle « développeur » (modèle plus léger, type Sonnet)**
+- Implémente **étape par étape**, en suivant la spec.
+- À chaque étape terminée, un **récapitulatif** est renvoyé à la session architecte.
+
+**La boucle de supervision**
+
+```
+   Architecte (Opus)              Développeur (Sonnet)
+   ─────────────────              ────────────────────
+   conçoit la spec      ───────►  implémente l'étape
+   + fichier de suivi                     │
+          ▲                               ▼
+          │                        envoie le récap
+   relit, valide,       ◄───────  de l'étape terminée
+   corrige si besoin
+          │
+          └──────────►  étape suivante… (et on recommence)
+```
+
+Ces **allers-retours entre modèles différents** apportent, à chaque étape, un point de
+vue distinct — et permettent de repérer des choses qu'un seul modèle, seul, aurait
+laissé passer. La spec et les plans qui en résultent sont versionnés dans [`docs/`](docs/)
+(`docs/specs/`, `docs/plans/`).
+
+> 😄 **Anecdote** : à une étape, la session de développement (Sonnet) a repéré et
+> corrigé d'elle-même un oubli que la session de supervision (Opus) n'avait pas
+> anticipé. La preuve, par l'exemple, que faire dialoguer plusieurs modèles vaut mieux
+> que de tout confier à un seul.
+
+Le principe directeur reste le même : **spécifier → planifier → implémenter → valider**,
+en gardant la main sur l'architecture et les décisions techniques.
 
 ---
 
