@@ -78,6 +78,28 @@ Schéma détaillé et flux de données dans **[docs/architecture.md](docs/archit
 
 ---
 
+## 🧠 Choisir son modèle d'IA selon sa machine
+
+L'un des atouts du tout-Docker : **le projet tourne à l'identique sur un serveur Linux
+ou un PC Windows** — même configuration, même fonctionnement. La **seule** variable,
+c'est la puissance de votre machine, qui détermine le modèle Ollama utilisable et la
+vitesse d'analyse. **Plus de RAM (et un GPU) = un modèle plus puissant et plus rapide.**
+
+| Machine | Modèle conseillé | Qualité d'analyse | Vitesse |
+|---|---|---|---|
+| PC modeste / 8 Go RAM, sans GPU | `qwen2.5:1.5b` *(par défaut)* | correcte | lente sur gros volumes |
+| PC confortable / 16 Go RAM | `qwen2.5:3b` | bonne | correcte |
+| Serveur ou PC avec GPU | `qwen2.5:7b` ou plus | très bonne | rapide |
+
+Le modèle se change en une ligne : `docker exec veille_ollama ollama pull <modèle>`,
+puis on sélectionne ce modèle dans le workflow « Analyseur Veille Ollama ». Rien d'autre
+ne change : **le reste de la stack et toute la configuration restent strictement les mêmes.**
+
+> 💡 Sur serveur Linux avec carte NVIDIA, décommentez le bloc GPU du `docker-compose.yml`
+> pour accélérer Ollama nettement. Sur Windows, l'accélération GPU passe par WSL2.
+
+---
+
 ## 🚀 Démarrage rapide
 
 > **Pré-requis** : Docker + Docker Compose installés. Connaissances de base en auto-hébergement recommandées.
