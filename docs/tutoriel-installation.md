@@ -116,12 +116,14 @@ Le téléchargement (~1 Go) prend 1 à 3 minutes. Pour vérifier :
 docker exec veille_ollama ollama list
 ```
 
-> **Adaptez le modèle à votre machine.** `qwen2.5:1.5b` est léger et tourne partout,
-> même sur un PC modeste sans GPU. Si vous avez plus de RAM (16 Go) ou un GPU, vous
-> pouvez passer à `qwen2.5:3b` ou `qwen2.5:7b` pour une bien meilleure qualité
-> d'analyse — il suffit de `ollama pull <modèle>` puis de sélectionner ce modèle dans
-> le workflow « Analyseur Veille Ollama ». Tout le reste de la config reste identique.
-> Voir le tableau de correspondance machine/modèle dans le [README](../README.md#-choisir-son-modèle-dia-selon-sa-machine).
+> **Adaptez le modèle à votre machine et à vos besoins.** `qwen2.5:1.5b` est léger et
+> tourne partout, même sur un PC modeste sans GPU. Mais Ollama gère beaucoup d'autres
+> modèles — **Gemma 3**, Llama 3, Mistral… — et on peut basculer de l'un à l'autre selon
+> le type d'analyse. Avec plus de RAM (16 Go) ou un GPU, des modèles plus gros
+> (`qwen2.5:3b`, `gemma3:4b`, `qwen2.5:7b`…) donnent une bien meilleure qualité : il
+> suffit de `ollama pull <modèle>` puis de le sélectionner dans le workflow « Analyseur
+> Veille Ollama ». Tout le reste de la config reste identique. Voir le tableau
+> machine/modèle dans le [README](../README.md#-choisir-son-modèle-dia-selon-sa-machine).
 
 ---
 

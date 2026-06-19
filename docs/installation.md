@@ -40,8 +40,10 @@ et crée toutes les tables de la veille.
 docker exec veille_ollama ollama pull qwen2.5:1.5b
 ```
 
-> Modèle léger par défaut. Pour une meilleure qualité d'analyse, vous pouvez essayer
-> `qwen2.5:3b` (plus gourmand) et adapter le modèle dans le workflow d'analyse.
+> Modèle léger par défaut. Ollama gère beaucoup d'autres modèles (Gemma 3, Llama 3,
+> Mistral…) : selon votre machine et vos besoins d'analyse, vous pouvez `pull` un modèle
+> plus gros (ex. `qwen2.5:3b`, `gemma3:4b`) et le sélectionner dans le workflow d'analyse.
+> Voir le tableau machine/modèle dans le [README](../README.md#-choisir-son-modèle-dia-selon-sa-machine).
 
 ## 5. Importer les workflows dans n8n
 

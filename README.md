@@ -85,15 +85,24 @@ ou un PC Windows** — même configuration, même fonctionnement. La **seule** v
 c'est la puissance de votre machine, qui détermine le modèle Ollama utilisable et la
 vitesse d'analyse. **Plus de RAM (et un GPU) = un modèle plus puissant et plus rapide.**
 
-| Machine | Modèle conseillé | Qualité d'analyse | Vitesse |
-|---|---|---|---|
-| PC modeste / 8 Go RAM, sans GPU | `qwen2.5:1.5b` *(par défaut)* | correcte | lente sur gros volumes |
-| PC confortable / 16 Go RAM | `qwen2.5:3b` | bonne | correcte |
-| Serveur ou PC avec GPU | `qwen2.5:7b` ou plus | très bonne | rapide |
+Ollama prend en charge de **nombreux modèles légers** — Qwen 2.5, **Gemma 3**, Llama 3,
+Mistral… — et on peut **basculer de l'un à l'autre selon le besoin d'analyse** (un modèle
+peut mieux résumer, un autre mieux classer). Ci-dessous des ordres de grandeur, à ajuster
+à votre matériel :
 
-Le modèle se change en une ligne : `docker exec veille_ollama ollama pull <modèle>`,
+| Machine | Taille de modèle conseillée | Qualité d'analyse | Vitesse |
+|---|---|---|---|
+| PC modeste / 8 Go RAM, sans GPU | ~1,5–2 B (ex. `qwen2.5:1.5b`, `gemma3:1b`) | correcte | lente sur gros volumes |
+| PC confortable / 16 Go RAM | ~3–4 B (ex. `qwen2.5:3b`, `gemma3:4b`) | bonne | correcte |
+| Serveur ou PC avec GPU | 7 B et plus (ex. `qwen2.5:7b`, `gemma3:12b`) | très bonne | rapide |
+
+Changer de modèle se fait en une ligne : `docker exec veille_ollama ollama pull <modèle>`,
 puis on sélectionne ce modèle dans le workflow « Analyseur Veille Ollama ». Rien d'autre
 ne change : **le reste de la stack et toute la configuration restent strictement les mêmes.**
+
+> Le projet est livré avec `qwen2.5:1.5b` par défaut (léger, tourne partout), mais c'est
+> un simple point de départ : remplacez-le par le modèle qui convient à votre machine et
+> à vos besoins.
 
 > 💡 Sur serveur Linux avec carte NVIDIA, décommentez le bloc GPU du `docker-compose.yml`
 > pour accélérer Ollama nettement. Sur Windows, l'accélération GPU passe par WSL2.
