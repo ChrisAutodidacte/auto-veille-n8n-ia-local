@@ -15,7 +15,9 @@
 
 ## 🎬 Démonstration
 
-> 📺 **Vidéo de présentation** : _(lien à venir)_
+> 📺 **Vidéo de présentation et d'installation** : _(lien à venir)_
+>
+> Préférez l'écrit ? Suivez le **[tutoriel d'installation pas à pas](docs/tutoriel-installation.md)**.
 
 <!-- Remplacez par une capture réelle de l'interface admin une fois disponible -->
 <!-- ![Aperçu du dashboard](docs/images/dashboard.png) -->
