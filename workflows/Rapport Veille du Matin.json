@@ -89,27 +89,6 @@
           "name": "Postgres account"
         }
       }
-    },
-    {
-      "parameters": {
-        "operation": "executeQuery",
-        "query": "DELETE FROM newsletter_queue WHERE abonne_id = 1;",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.6,
-      "position": [
-        368,
-        -144
-      ],
-      "id": "fdd7f5ca-01fc-4382-97b5-e9d55cc48e3a",
-      "name": "Stats admin1",
-      "credentials": {
-        "postgres": {
-          "id": "uakSDX3SNDasm8pd",
-          "name": "Postgres account"
-        }
-      }
     }
   ],
   "pinData": {},
