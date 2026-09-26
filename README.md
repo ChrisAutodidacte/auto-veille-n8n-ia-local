@@ -206,3 +206,19 @@ Ce dépôt est une **base de démarrage**. Avant toute mise en production :
 ## 📄 Licence
 
 Distribué sous licence **MIT**. Voir [LICENSE](LICENSE). Réutilisation libre, crédit apprécié. 🙂
+
+---
+
+## 💼 Besoin d'aide pour déployer ou adapter cet outil ?
+
+Ce projet a été conçu par **Chris Autodidacte** pour automatiser la veille stratégique sans dépendre d'abonnements cloud coûteux ni exposer ses données.
+
+Vous êtes une entreprise, un indépendant ou une équipe et vous souhaitez :
+* Déployer et configurer cette stack sur votre propre serveur ou infrastructure locale ?
+* Adapter les sources de veille, les modèles Ollama et les flux n8n à votre secteur d'activité ?
+* Former vos équipes à l'utilisation concrète de l'IA locale et de l'automatisation de processus ?
+
+👉 **Découvrez mes solutions et prenons contact sur [chrisconseil.fr](https://chrisconseil.fr)**  
+📧 Contact direct : [contact@chrisconseil.fr](mailto:contact@chrisconseil.fr)  
+📺 Retrouvez mes vidéos dans les coulisses du développement sur YouTube : **[Chris Autodidacte](https://www.youtube.com/@ChrisAutodidacte)**
+
