@@ -1,5 +1,7 @@
 # 🤖 Auto Veille n8n IA Local
 
+> 🇬🇧 **Looking for the English version?** See the English repository: [local-ai-news-monitor-n8n](https://github.com/ChrisAutodidacte/local-ai-news-monitor-n8n)
+
 > Une plateforme de **veille technologique automatisée**, 100 % auto-hébergée, qui collecte l'information, l'analyse avec une **IA locale (Ollama)**, et la redistribue sous forme de **rapport quotidien** et de **newsletters personnalisées** — sans aucune API payante ni donnée envoyée dans le cloud.
 
 <p align="center">
