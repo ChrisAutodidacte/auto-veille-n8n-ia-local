@@ -173,8 +173,8 @@ avec relecture par les pairs.
 
 Ces **allers-retours entre modèles différents** apportent, à chaque étape, un point de
 vue distinct — et permettent de repérer des choses qu'un seul modèle, seul, aurait
-laissé passer. La spec et les plans qui en résultent sont versionnés dans [`docs/`](docs/)
-(`docs/specs/`, `docs/plans/`).
+laissé passer, garantissant une architecture robuste et sans angle mort avant même d'écrire la moindre ligne de code.
+
 
 > 😄 **Anecdote** : à une étape, la session de développement (Sonnet) a repéré et
 > corrigé d'elle-même un oubli que la session de supervision (Opus) n'avait pas
